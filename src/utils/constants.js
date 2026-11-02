@@ -1,0 +1,1 @@
+export const getUrl = (str) => `http://localhost:8080/${str}`

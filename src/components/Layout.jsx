@@ -5,7 +5,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../store/userSlice";
 import { useEffect } from "react";
-import { isEmpty } from "./Utils";
+import { isEmpty } from "../utils";
+import { getUrl } from "../utils/constants";
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const Layout = () => {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/profile/view", { withCredentials: true });
+      const res = await axios.get(getUrl("profile/view"), { withCredentials: true });
       if (res.status === 200) {
         dispatch(addUser(res.data.data));
       }

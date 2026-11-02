@@ -3,22 +3,25 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../store/userSlice";
 import { useNavigate } from "react-router";
+import { getUrl } from "../utils/constants";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("sunil@gmail.com");
+  const [password, setPassword] = useState("Sunil@123");
+  const [errorText, setErrorText] = useState('')
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:8080/login", { email, password }, { withCredentials: true });
+      const res = await axios.post(getUrl("login"), { email, password }, { withCredentials: true });
       if (res.status === 200) {
-        dispatch(addUser(res.data.data));
+        dispatch(addUser(res.resposne.data.data));
         navigate("/feed")
       }
     } catch (error) {
-      console.error(error);
+      setErrorText(error?.response?.data?.data)
+      console.error(error?.response?.data?.data);
     }
   };
 
@@ -72,7 +75,9 @@ const Login = () => {
             </p>
           </fieldset>
 
-          <div className="mt-6">
+          <div className="text-error text-[13px]">{errorText}</div>
+
+          <div className="mt-3">
             <button className="btn btn-primary btn-block rounded-xs" onClick={handleLogin}>
               Login
             </button>

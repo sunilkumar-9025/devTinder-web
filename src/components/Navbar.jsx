@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { isEmpty } from "./Utils";
+import { isEmpty } from "../utils";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { addUser } from "../store/userSlice";
+import { getUrl } from "../utils/constants";
 
 const Navbar = () => {
   const user = useSelector((state) => state.User);
@@ -11,8 +12,7 @@ const Navbar = () => {
 
   const handleLogout = async() => {
       try {
-      const res = await axios.post("http://localhost:8080/logout", {}, { withCredentials: true });
-      console.log(res)
+      const res = await axios.post(getUrl("logout"), {}, { withCredentials: true });
       if (res.status === 200) {
         dispatch(addUser(res.data.data));
         navigate("/logout")
